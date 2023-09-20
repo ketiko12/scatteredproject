@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+              "icons":[
+              {
+              "src":"/img/icons/icon1.png",
+              "type":"image/png",
+              "sizes":"192X192"
+               },
+               {
+              "src":"/img/icons/icon2.png",
+              "type":"image/png",
+              "sizes":"192X192"
+               },
+               {
+              "src":"/img/icons/icon3.png",
+              "type":"image/png",
+              "sizes":"192X192"
+               }
+
+              ]
+
+              const empty_obj={};
+
+              Object.isExtensible(empty_obj); //gives true value as object'empty' can have properties added to:
+              Object.preventExtensions(empty_obj); //it prevents extension
+              Object.isExtensible(empty_obj)//gives false
+
+              //Sealed objects are non-extensible by definition:
+              const sealed= Object.seal({
+                  name:"achilles",
+                  id:"756998^^%500"
+              })
+              Object.isExtensible(sealed) //gives false
+
+              //Same is the fate of frozen objects
+              Object.isExtensible(Object.freeze({
+                  name:"nhyut",
+                  class:"bellicose"
+              })) //gives false
+
+
+
+              ///testing immutability of primitive objects:string, number, booleans,ect.
+              Object.isExtensible(1)//it gives false because primitives are regarded as immutable
+
+
+              //Understanding differences between frozen, sealed and extension-prevented objects:
+              const NewObj={
+                  name:'Balel',
+                  status:'Mulato'
+              }
+              //lets prevent its extensions
+              Object.preventExtensions(NewObj)
+              //checks its freezing status
+              Object.isFrozen(NewObj);//it gives false i.e. preventing extensions alone cannot make the object frozen
+
+
+              delete NewObj.name;
+              delete NewObj.status;
+              //After deleting both of the properties of this object, we make it vacuously frozen
+              Object.isFrozen(NewObj)//GIVES TRUE
+
+              const notWriteable= {e:"hello"};
+              Object.preventExtensions(notWriteable);
+              Object.defineProperty(notWriteable, "e",{
+                  writable:"false",
+              });
+              Object.isFrozen(notWriteable);//gives false when printed
+              //SO We saw that making the properties of objects after preventing extensions, will not make
+              //the object frozen
+
+              //lets attack on configuration
+              const nonConfig= {
+                  relation:"major"
+              };
+
+              Object.preventExtensions(nonConfig);
+              Object.defineProperty(nonConfig,"relation",{
+                  configurable:false,
+              });
+
+              Object.isFrozen(nonConfig);//false ,so we knew that non-extensible and non-configurable but still wrtable property is also not frozen.
+
+              const funcObj= {
+                  get school(){
+                      return "Deepak";
+                  }
+              }
+
+              Object.preventExtensions(funcObj);
+              Object.isFrozen(funcObj); //false
+
+              Object.defineProperty(funcObj, "school",{
+                  configurable:false,
+              });
+
+              Object.isFrozen(funcObj); //true, we saw that in getter function, non-extensibility and non-configurability guarantee the frozen state of object
+
+              const frozenObj= Object.freeze( {
+                  name:"Mnagut",
+                  email:"passletter7@gmail.com"
+              })
+
+              Object.isFrozen(frozenObj); //true
+              Object.isExtensible(frozenObj);//true
+              Object.isSealed(frozenObj);//true
+
+              //primitive objects are considered frozen, sealed and non-extensible.
+
+             const target={a:1, b:2};
+             const source={b:4, c:5};
+             const assignedT= Object.assign(target, source);
+             console.log(assignedT); //returns {a:1, b:4, c:5}
+             console.log(assignedT===target); //returns true
+            //  The Object.assign() method only copies enumerable and own properties from a
+            //  source object to a target object. It uses [[Get]] on the source and [[Set]] on 
+            // the target, so it will invoke getters and setters. Therefore it assigns
+            //  properties, versus copying or defining new properties. This may make it unsuitable 
+            //  for 
+            // merging new properties into a prototype if the merge sources contain getters.
+             const object= {name:"manu"};
+             const copy= Object.assign({},object);
+             console.log(copy);//returns {name:"manu"} So this is how we can copy the object
+            
+             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // <![CDATA[  <-- For SVG support
+            if ('WebSocket' in window) {
+                (function () {
+                    function refreshCSS() {
+                        var sheets = [].slice.call(document.getElementsByTagName("link"));
+                        var head = document.getElementsByTagName("head")[0];
+                        for (var i = 0; i < sheets.length; ++i) {
+                            var elem = sheets[i];
+                            var parent = elem.parentElement || head;
+                            parent.removeChild(elem);
+                            var rel = elem.rel;
+                            if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+                                var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+                                elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+                            }
+                            parent.appendChild(elem);
+                        }
+                    }
+                    var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+                    var address = protocol + window.location.host + window.location.pathname + '/ws';
+                    var socket = new WebSocket(address);
+                    socket.onmessage = function (msg) {
+                        if (msg.data == 'reload') window.location.reload();
+                        else if (msg.data == 'refreshcss') refreshCSS();
+                    };
+                    if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+                        console.log('Live reload enabled.');
+                        sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+                    }
+                })();
+
+
+               // Iteration over an object is simple - the for in loop:
+
+      for (var key in object) {
+          if (object.hasOwnProperty(key)) {
+              //Now, object[key] is the current value
+              if (object[key] === null || isEmpty(object[key]))
+                  delete object[key];
+          }
+      }
+    </script>
+  </body>
+</html>

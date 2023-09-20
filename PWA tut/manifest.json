@@ -1,0 +1,36 @@
+{
+    "name" : "My-PWA",
+    "short_name" : "Mypwa",
+    "start_url" : "/indexap.html",
+    "display" : "standalone",
+    "background_color" : "#fd123b",
+    "theme_color" : "#fe23b4",
+    "orientation":"portrait-primary",
+    "icons":[
+        {
+            "src":"img/icons/icon1.png",
+            "sizes": "410x410",
+            "type" :"image/png"
+        },
+        {
+            "src":"img/icons/icon2.png",
+            "sizes": "432X459",
+            "type" :"image/png"
+        },
+        {
+            "src":"img/icons/icon3.png",
+            "sizes": "144x144",
+            "type" :"image/png"
+        },
+        {
+            "src":"img/icons/icon4.png",
+            "sizes": "374X364",
+            "type" :"image/png"
+        }
+
+    ]
+    
+}    
+        
+                 
+
